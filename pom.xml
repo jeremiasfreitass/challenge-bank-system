@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.challange.picpay</groupId>
-	<artifactId>challange-picpay</artifactId>
+	<artifactId>challange-bank-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>challange-picpay</name>
 	<description>Challange picpay project for Spring Boot</description>
