@@ -12,6 +12,7 @@ import com.challange.bank.system.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
 @RequiredArgsConstructor
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -24,7 +25,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDTO createTransaction(TransactionRequestDTO transactionRequestDTO) {
         validationService.validateTransaction(transactionRequestDTO);
-        authorizeTransactionService.validateTransactionAuthorization();
+        authorizeTransactionService.validateAuthorization();
 
         return performTransaction(transactionRequestDTO);
     }
@@ -39,13 +40,14 @@ public class TransactionServiceImpl implements TransactionService {
         payer.setBalance(payer.getBalance().subtract(transactionRequestDTO.value()));
         payee.setBalance(payee.getBalance().add(transactionRequestDTO.value()));
 
-        sendNotification(payer, payee, transactionRequestDTO);
         userRepository.save(payer);
         userRepository.save(payee);
+        sendNotification(payer, payee, transactionRequestDTO);
+
         return new TransactionDTO();
     }
 
-    public void sendNotification(User payer, User payee, TransactionRequestDTO transactionRequestDTO) {
+    private void sendNotification(User payer, User payee, TransactionRequestDTO transactionRequestDTO) {
         try {
             NotificationRequestDTO notificationRequestDTO = new NotificationRequestDTO(
                     payee.getEmail(),
@@ -59,5 +61,4 @@ public class TransactionServiceImpl implements TransactionService {
             System.err.println("Erro ao notificar usuário: " + e.getMessage());
         }
     }
-
 }

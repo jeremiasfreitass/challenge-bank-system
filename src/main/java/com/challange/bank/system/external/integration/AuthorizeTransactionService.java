@@ -16,7 +16,7 @@ public class AuthorizeTransactionService{
 
     private final HttpClientService httpClientService;
 
-    public void validateTransactionAuthorization() {
+    public void validateAuthorization() {
         String url = "https://api.externa.com/authorize";
 
         HttpHeaders headers = new HttpHeaders();
