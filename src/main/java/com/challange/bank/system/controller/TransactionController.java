@@ -27,10 +27,4 @@ public class TransactionController {
 
         return ResponseEntity.ok(transactionService.createTransaction(transactionRequest));
     }
-
-    @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO request) {
-        UserDTO created = userService.createUser(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
-    }
 }
