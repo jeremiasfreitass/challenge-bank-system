@@ -1,12 +1,10 @@
-package com.challange.picpay.challange_picpay.model;
+package com.challange.bank.system.model;
 
+import com.challange.bank.system.model.enums.UserTypeEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.usertype.UserType;
+import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity(name = "users")
@@ -15,7 +13,9 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class User {
+@NoArgsConstructor
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,5 +36,5 @@ public class User {
     private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
-    private UserType userType;
+    private UserTypeEnum userType;
 }
