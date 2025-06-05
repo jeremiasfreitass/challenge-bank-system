@@ -17,8 +17,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO request) {
-        UserDTO created = userService.createUser(request);
+    public ResponseEntity<User> createUser(@RequestBody UserDTO request) {
+        User created = userService.createUser(request);
         return ResponseEntity.status(201).body(created);
 
     }
@@ -30,8 +30,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> users = userService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 }
