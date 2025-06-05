@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.antlr.v4.runtime.tree.xpath.XPath.findAll;
+
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +23,9 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper mapper;
 
     @Override
-    public UserDTO createUser(UserDTO userDTO) {
+    public User createUser(UserDTO userDTO) {
         User user = mapper.map(userDTO, User.class);
-        User savedUser = userRepository.save(user);
-        return mapper.map(savedUser, UserDTO.class);
+        return userRepository.save(user);
     }
 
     @Override
@@ -33,8 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return Collections.singletonList(mapper.map(users, UserDTO.class));
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }

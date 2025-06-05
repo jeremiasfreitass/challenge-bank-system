@@ -1,6 +1,7 @@
 package com.challange.bank.system.external.integration;
 
 import com.challange.bank.system.dto.AuthResponseDTO;
+import com.challange.bank.system.exception.BusinessException;
 import com.challange.bank.system.external.client.HttpClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ public class AuthorizeTransactionService{
     private final HttpClientService httpClientService;
 
     public void validateAuthorization() {
-        String url = "https://api.externa.com/authorize";
+        String url = "https://util.devi.tools/api/v2/authorize";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
@@ -29,8 +30,8 @@ public class AuthorizeTransactionService{
                 AuthResponseDTO.class,
                 headers
         );
-        if (response.getStatusCode().value() != HttpStatus.OK.value()){
-            throw new RuntimeException("Falha para autorizar transação.");
+        if (!response.getStatusCode().is2xxSuccessful() ){
+            throw new BusinessException("Falha para autorizar transação.");
         }
         log.info("AuthorizeTransactionService: Transação autorizada com sucesso.");
     }

@@ -1,6 +1,8 @@
 package com.challange.bank.system.service.impl;
 
 import com.challange.bank.system.dto.TransactionRequestDTO;
+import com.challange.bank.system.exception.BusinessException;
+import com.challange.bank.system.exception.ResourceNotFoundException;
 import com.challange.bank.system.model.User;
 import com.challange.bank.system.model.enums.UserTypeEnum;
 import com.challange.bank.system.repository.UserRepository;
@@ -19,7 +21,7 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public void validateTransaction(TransactionRequestDTO transactionRequestDTO) {
         User payer = userRepository.findById(transactionRequestDTO.payerId())
-                .orElseThrow(() -> new IllegalArgumentException("Usuário pagador não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário pagador não encontrado"));
 
         validateTransfer(payer.getUserType());
         validateSufficientBalancePayer(payer.getBalance(), transactionRequestDTO);
@@ -27,13 +29,13 @@ public class ValidationServiceImpl implements ValidationService {
 
     private void validateTransfer(UserTypeEnum userType) {
         if(userType == UserTypeEnum.MERCHANT) {
-            throw new IllegalArgumentException("Transação inválida: o pagador não pode ser lojista.");
+            throw new BusinessException("Transação inválida: o pagador não pode ser lojista.");
         }
     }
 
     private void validateSufficientBalancePayer(BigDecimal balancePayer, TransactionRequestDTO transactionRequestDTO) {
         if (balancePayer.compareTo(transactionRequestDTO.value()) < 0){
-            throw new IllegalArgumentException("Transação inválida: saldo insuficiente.");
+            throw new BusinessException("Transação inválida: saldo insuficiente.");
         }
     }
 
