@@ -3,7 +3,6 @@ package com.challange.bank.system.controller;
 import com.challange.bank.system.dto.TransactionDTO;
 import com.challange.bank.system.dto.TransactionRequestDTO;
 import com.challange.bank.system.service.TransactionService;
-import com.challange.bank.system.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
