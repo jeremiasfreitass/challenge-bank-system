@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransactionController {
 
     private final TransactionService transactionService;
-    private final UserService userService;
-
 
     @PostMapping("/transfer")
     public ResponseEntity<TransactionDTO> createTransaction(@Valid @RequestBody TransactionRequestDTO transactionRequest) {
