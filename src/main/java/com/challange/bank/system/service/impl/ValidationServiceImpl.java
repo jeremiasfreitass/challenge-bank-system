@@ -8,10 +8,12 @@ import com.challange.bank.system.model.enums.UserTypeEnum;
 import com.challange.bank.system.repository.UserRepository;
 import com.challange.bank.system.service.ValidationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ValidationServiceImpl implements ValidationService {
@@ -20,6 +22,8 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Override
     public void validateTransaction(TransactionRequestDTO transactionRequestDTO) {
+        log.info(">>>[ValidationServiceImpl]: Iniciando validações de transação.");
+
         User payer = userRepository.findById(transactionRequestDTO.payerId())
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário pagador não encontrado"));
 
@@ -31,12 +35,14 @@ public class ValidationServiceImpl implements ValidationService {
         if(userType == UserTypeEnum.MERCHANT) {
             throw new BusinessException("Transação inválida: o pagador não pode ser lojista.");
         }
+        log.info(">>>[ValidationServiceImpl]: Validações de Pagador concluídas com sucesso.");
     }
 
     private void validateSufficientBalancePayer(BigDecimal balancePayer, TransactionRequestDTO transactionRequestDTO) {
         if (balancePayer.compareTo(transactionRequestDTO.value()) < 0){
             throw new BusinessException("Transação inválida: saldo insuficiente.");
         }
+        log.info(">>>[ValidationServiceImpl]: Validações de Saldo concluídas com sucesso.");
     }
 
 }

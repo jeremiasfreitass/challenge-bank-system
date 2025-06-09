@@ -13,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class NotificationService {
     private final WebClient webClient;
     public void notifyUser(NotificationRequestDTO request) {
+        log.info(">>>[NotificationService]: Enviando notificação para o usuário {}.", request.email());
         webClient.post()
                 .uri("https://util.devi.tools/api/v1/notify")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -20,10 +21,10 @@ public class NotificationService {
                 .retrieve()
                 .toBodilessEntity()
                 .doOnSuccess(response -> {
-                    log.info("NotificationService: Notificação enviada com sucesso.");
+                    log.info(">>>[NotificationService]: Notificação enviada com sucesso para o usuário {}.", request.email());
                 })
                 .doOnError(error -> {
-                    log.error("NotificationService: Erro ao enviar notificação: {}", error.getMessage());
+                    log.error(">>>[NotificationService]: Erro ao enviar notificação para o usuário {}: {}", request.email(), error.getMessage());
                 })
                 .subscribe();
     }

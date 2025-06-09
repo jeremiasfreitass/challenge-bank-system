@@ -19,21 +19,22 @@ public class AuthorizeTransactionService{
     private final WebClient webClient;
 
     public void validateAuthorization() {
-        String url = "https://util.devi.tools/api/v2/authorize";
-
+        log.info(">>>[AuthorizeTransactionService]: Iniciando validação de autorização de transação.");
         ClientResponse response = webClient
                 .get()
-                .uri(url)
+                .uri("https://util.devi.tools/api/v2/authorize")
                 .exchangeToMono(Mono::just)
                 .block(); // força execução sincrônica
 
         if (response.statusCode().is2xxSuccessful() ){
-            log.info("AuthorizeTransactionService: Transação autorizada com sucesso.");
+            log.info(">>>[AuthorizeTransactionService]: Transação autorizada com sucesso.");
             return;
         }
         if (response.statusCode() == HttpStatus.FORBIDDEN) {
+            log.warn(">>>[AuthorizeTransactionService]: Transação não autorizada.");
             throw new AuthorizationException("Transação não autorizada.");
         }
+        log.error(">>>[AuthorizeTransactionService]: Falha ao autorizar transação. Status: {}", response.statusCode());
         throw new BusinessException("Falha para autorizar transação.");
     }
 }
