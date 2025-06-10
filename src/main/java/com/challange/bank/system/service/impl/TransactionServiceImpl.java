@@ -3,7 +3,6 @@ package com.challange.bank.system.service.impl;
 import com.challange.bank.system.dto.NotificationRequestDTO;
 import com.challange.bank.system.dto.TransactionDTO;
 import com.challange.bank.system.dto.TransactionRequestDTO;
-import com.challange.bank.system.exception.BusinessException;
 import com.challange.bank.system.exception.ResourceNotFoundException;
 import com.challange.bank.system.external.AuthorizeTransactionService;
 import com.challange.bank.system.external.NotificationService;
@@ -28,10 +27,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDTO createTransaction(TransactionRequestDTO transactionRequestDTO) {
         log.info(">>>[TransactionServiceImpl]: Iniciando transação de transferência.");
-
-        if (transactionRequestDTO == null) {
-            throw new BusinessException("Dados insuficientes para transção. Por favor, verifique os dados informados.");
-        }
 
         validationService.validateTransaction(transactionRequestDTO);
         authorizeTransactionService.validateAuthorization();
@@ -58,7 +53,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         log.info(">>>[TransactionServiceImpl]: Transação de transferência realizada com sucesso.");
 
-        return new TransactionDTO("Transação realizada com sucesso");
+        return new TransactionDTO("Transação realizada com sucesso.");
     }
 
     private void sendNotification(User payer, User payee, TransactionRequestDTO transactionRequestDTO) {

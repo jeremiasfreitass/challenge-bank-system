@@ -11,6 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 @RequiredArgsConstructor
 public class NotificationService {
+
     private final WebClient webClient;
     public void notifyUser(NotificationRequestDTO request) {
         log.info(">>>[NotificationService]: Enviando notificação para o usuário {}.", request.email());
