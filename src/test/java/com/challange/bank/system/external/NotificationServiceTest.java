@@ -30,7 +30,7 @@ class NotificationServiceTest {
     @Mock
     private WebClient.RequestBodySpec requestBodySpecMock;
     @Mock
-    private WebClient.RequestHeadersSpec requestHeadersSpecMock; // bodyValue retorna RequestHeadersSpec
+    private WebClient.RequestHeadersSpec requestHeadersSpecMock;
     @Mock
     private WebClient.ResponseSpec responseSpecMock;
     @InjectMocks
